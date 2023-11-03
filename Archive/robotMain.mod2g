@@ -1,0 +1,30 @@
+use robot as knowledge.
+use robotActions.
+exit=nogoals.
+
+% Exercise 2b. Add the nextColor(ColorId) macro here.
+define nextColor(ColorID) as
+		a-goal(sequence(GoalSeq)),bel(sequence(Seq),append(Seq,List,GoalSeq),nth0(0,List,ColorID)).
+
+module robotMain {
+	% Exercise 4d. Add a rule to put down the block.
+	if bel(in('DropZone')) then putDown.
+	
+	% Exercise 5. Add update logic for the sequence predicate.
+	
+	% Exercise 4c. Add a rule to go to the dropzone.
+	if bel(holding(_)) then goTo('DropZone').
+	
+	% Exercise 4b. Add a rule to pick up a block.
+	if nextColor(ColorID), bel(block(BlockID, ColorID, PlaceID)) then pickUp(BlockID) + delete(block(BlockID, ColorID, PlaceID)).
+	
+	% Exercise 4a. Add a rule to go to a block.
+	if nextColor(ColorID), bel(block(BlockID, ColorID, _)) then goToBlock(BlockID).
+	
+	% Exercise 2c. Add a rule to go to a room where a block of the right colour can be found.
+	if nextColor(ColorID), bel(block(_, ColorID, PlaceID))
+		then goTo(PlaceID).
+	
+	if not(bel(state(traveling))), goal(in(Place)) 
+		then goTo(Place).
+}

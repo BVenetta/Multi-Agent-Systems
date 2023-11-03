@@ -1,0 +1,1 @@
+sum(A,B,C):- permutation(P, A), append(B,C,P), sum_list(B, X), sum_list(C,X).

@@ -1,0 +1,34 @@
+use robot as knowledge.
+
+module robotEvent {
+	% Update the agent's state of movement.
+	forall percept(state(NewState)), bel(state(State), State \= NewState)
+		do delete(state(State)) + insert(state(NewState)).
+		
+	% Exercise 1c. Add rules for send on change and send always percepts.
+	
+	% for all perceptions of new place and beliefs of old place, delete the old place and insert the new one.
+	forall percept(at(NewPlaceID)), bel(at(PlaceID), PlaceID \= NewPlaceID)
+		do delete(at(PlaceID)) + insert(at(NewPlaceID)).
+	
+	% for all perceptions of new block and beliefs of old block, delete the old block and insert the new one.
+	forall percept(block(NewBlockID,NewColorID,NewPlaceID)), bel(block(BlockID,ColorID,PlaceID), BlockID \= NewBlockID, ColorID \= NewColorID, PlaceID \= NewPlaceID)
+		do delete(block(BlockID,ColorID,PlaceID)) + insert(block(NewBlockID,NewColorID,NewPlaceID)).
+	
+	% for all perceptions of new color and beliefs of old color, delete the old color and insert the new one.
+	forall percept(color(NewBlockID,NewColorID)), bel(color(BlockID,ColorID), BlockID \= NewBlockID, ColorID \= NewColorID)
+		do delete(color(BlockID,ColorID)) + insert(color(NewBlockID,NewColorID)).
+	
+	% for all perceptions of new holding and beliefs of old holding, delete the old holding and insert the new holding.
+	forall percept(holding(NewBlockID)), bel(holding(BlockID), BlockID \= NewBlockID)
+		do delete(holding(BlockID)) + insert(holding(NewBlockID)).
+	
+	% for all perceptions of new sequence index and beliefs of old sequence index, delete the old sequence index and insert the new sequence index.
+	forall percept(sequenceIndex(NewIndex)), bel(sequenceIndex(Index), Index \= NewIndex)
+		do delete(sequenceIndex(Index)) + insert(sequenceIndex(NewIndex)).
+	
+	
+	% Record when we are entering or leaving a room.
+	if bel(in(Place)), not(percept(in(Place))) then delete(in(Place)).
+	if percept(in(Place)), not(bel(in(Place))) then insert(in(Place)).
+}

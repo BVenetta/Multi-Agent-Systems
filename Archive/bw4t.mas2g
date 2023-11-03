@@ -1,0 +1,22 @@
+% Name: Toyesh Chakravorty
+% Student Number: 2689157
+% Email: t.chakravorty@student.vu.nl
+
+% Name: Seeun Park
+% Student Number: 2701501
+% Email: 
+
+use "bw4t-client-3.10.1.jar" as environment with 
+	clientip ="localhost", clientport="2000", 
+	serverip = "localhost", serverport = "8000",
+	agentcount = "1", humancount = "0", launchgui = "false", goal = "true".
+
+define robot as agent {
+	use robotInit as init module.
+	use robotMain as main module.
+	use robotEvent as event module.
+} 
+
+launchpolicy{
+	when * launch robot.
+}

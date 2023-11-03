@@ -1,0 +1,37 @@
+use robot as knowledge.
+
+module robotInit {
+	% Store map information, i.e., navigation points in the agent's belief base.
+	forall percept(zone(ID, Name, _, _, Neighbours))  
+		do insert(zone(ID, Name, Neighbours)).
+		
+	% Exercise 1c. Add percept rules for sent once and send on change percepts.
+	
+	% for all perceptions of where the agent is, insert the place into the belief base 
+	forall percept(at(PlaceID))  
+		do insert(at(PlaceID)). 
+	
+	% for all perceptions of a place, insert the place into the belief base 	
+	forall percept(place(PlaceID))  
+		do insert(place(PlaceID)).
+	
+	% for all perceptions of a block, insert the block into the belief base 	
+	forall percept(block(BlockID, ColourID, PlaceID))  
+		do insert(block(BlockID, ColourID, PlaceID)).
+	
+	% for all perceptions of a sequence index, insert the sequence index into the belief base 	
+	forall percept(sequenceIndex(Index))  
+		do insert(sequenceIndex(Index)).
+	
+	% Record the initial state of movement in belief base.
+	if percept(state(State)) then insert(state(State)).
+	
+	% Exercise 1b. Adopt the goal sequence as a main goal of the agent.
+	if percept(sequence(Seq)) then adopt(sequence(Seq)).
+
+	% Adopt initial goals.
+	forall bel(room(Place)) do adopt(in(Place)).
+	
+	% Exercise 2a. Initialise the sequence of blocks delivered.
+	if true then insert(sequence([])).
+}
